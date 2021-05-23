@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td{
+            width: 20px;
+            height: 20px;
+        }
+        .snake{
+            background-color:green;
+        }
+        .fruit{background-color:red;}
+    </style>
+</head>
+<body>
+    <h1>this is <span style="color:red;">NOT </span><span style="color:green;">SNAKE GAME!</span></h1>
+    <table style="border: 1px solid black;" id="display">
+    </table>
+    <h4 style="color:green;" id="point">Point: 0</h4>
+    <p>lâu lâu bị lỗi <span style="color:red">runtime</span> do hàm random vs in lại nhiều bị lag, refresh trang chơi lại là oke!</p>
+    <script>
+        let snake=[
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ];
+        oy=2;
+        ox=2;
+        let point=0;
+        let fruit_x;
+        let fruit_y;
+        function gamedraw(){
+            let table="";
+            for(let oy=0;oy<snake.length;oy++) {
+                table+=("<tr>")
+                for(let ox=0;ox<snake[oy].length;ox++) {
+                    if(snake[oy][ox]==1){//snake
+                        table+=("<td class='snake'>"+"</td>");
+                    }else if(snake[oy][ox]==5){// fruit
+                        table+=("<td class='fruit'>"+"</td>");
+                    }else{
+                        table+=("<td>"+"</td>");
+                    }
+                }
+                table+=("</tr>");
+            }
+            document.getElementById("display").innerHTML=table;
+        }
+        function fruit(){//vi tri mới
+             fruit_x = Math.floor(Math.random()*snake[oy].length-1);
+             fruit_y = Math.floor(Math.random()*snake.length-1);
+             snake[fruit_y][fruit_x]=5;
+        }
+        fruit();
+        gamedraw();
+        window.addEventListener("keydown",function(envent){
+            let keyCode = event.keyCode;
+            snake[oy][ox]=0;
+            if(keyCode===38){//đi lên
+                if(oy>0){//vùng giới hạn
+                oy--;}
+            }else if(keyCode===40){//đi xuống
+                if(oy<snake.length-1){
+                oy++;}
+            }else if(keyCode===37){//sang trái
+                if(ox>0){
+                ox--;}
+            }else if(keyCode===39){//sang phải
+                if(ox<snake[oy].length-1){
+                ox++;}
+            }
+            if(oy===fruit_y&&ox==fruit_x){
+                fruit();
+                point++;
+                document.getElementById("point").innerHTML="Point: "+point;
+            }
+            snake[oy][ox]=1;
+            gamedraw();
+            
+        }
+        )
+    </script>
+</body>
+</html>
